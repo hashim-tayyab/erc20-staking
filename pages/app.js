@@ -2,9 +2,9 @@ import Head from 'next/head';
 import contractABI from '../app/abi/abi.json';
 import { useEffect, useState } from 'react';
 const { ethers } = require('ethers');
-import GetterButton from '../app/components/getterButton/GetterButton';
+import GetterButton from '../components/getterButton/GetterButton';
 import { ConnectWallet } from "@thirdweb-dev/react";
-import InputBox from '../app/components/inputBox/InputBox';
+import InputBox from '../components/inputBox/InputBox';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
