@@ -1,6 +1,5 @@
 import React from 'react';
-import Home from './app';
-import "../styles/global.css";
+import Home from '../components/app';
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 
 
