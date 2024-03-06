@@ -155,7 +155,7 @@ export default function Home() {
                             <GetterButton text={"Get User Balance"} onClick={getBalance} />
                             <div className='text-white'>User Balance: {balance}</div>
                         </div>
-                    <div className='flex'>
+                    <div className='flex items-center justify-center mt-1' >
                         <div>
                             <div>
                                 <GetterButton text={"Amount Staked"} onClick={amountStaked} />
