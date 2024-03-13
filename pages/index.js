@@ -1,13 +1,16 @@
 import React from 'react';
 import Home from '../components/app';
 import { ThirdwebProvider } from "@thirdweb-dev/react";
+import { MetaMaskProvider } from "metamask-react";
 
 
 const App = () => {
   const activeChainId = 11155111;
   return (
     <ThirdwebProvider desiredChainId = {activeChainId} >
-      <Home/>
+      <MetaMaskProvider>
+        <Home/>
+      </MetaMaskProvider>
     </ThirdwebProvider>
   )
 }

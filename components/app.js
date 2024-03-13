@@ -7,6 +7,8 @@ import { ConnectWallet } from "@thirdweb-dev/react";
 import InputBox from './inputBox/InputBox';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useMetaMask } from "metamask-react";
+
 
 
 // Sepolia Contract Address
@@ -20,8 +22,11 @@ export default function Home() {
     const stakingTimeNotUp = () => toast.error("You need to Wait before Unstaking!");
     const addAddressFirst = () => toast.error("Enter Address to Search!");
     const addUnstakeAmountAlert = () => toast.error("Enter Amount to Unstake First!");
+    const switchChaidId = () => toast.error("Switch Chain Id!");
 
 
+
+    const { switchChain } = useMetaMask();
 
     const [contract, setContract] = useState('');
 
@@ -36,6 +41,8 @@ export default function Home() {
 
     const [amountToStake, setAmountToStake] = useState('');
     const [amountToUnstake, setAmountToUnstake] = useState('');
+    const [chainId, setChainId] = useState('');
+
 
 
 
@@ -44,18 +51,52 @@ export default function Home() {
 
 
         const load = async () => {
-
             // Connect to sepolia
             // const provider = new ethers.BrowserProvider(window.ethereum);
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const signer = await provider.getSigner()
             const contract = new ethers.Contract(contractAddress, contractABI, signer);
 
+
+
+
+
+            const { chainId } = await provider.getNetwork();
+            setChainId(chainId);
             setContract(contract);
         }
         load();
-
     }, []);
+
+
+    useEffect(() => {
+        // Function to handle chain ID change
+        const handleChainChange = () => {
+          // Controlled reload (avoid unnecessary reloads)
+          window.location.reload();
+        };
+    
+        // Add event listener for chain changes (using MetaMask)
+        window.ethereum?.on('chainChanged', handleChainChange);
+    
+        // Cleanup function to remove listener on unmount
+        return () => window.ethereum?.removeListener('chainChanged', handleChainChange);
+      }, []);
+    
+
+
+    if(11155111 !== chainId){
+        return (
+            <div className=' justify-center flex content-center items-center'>
+                <GetterButton onClick={() => {switchChain("0xaa36a7")}}
+                text={'Click here to Switch to Sepolia Testnet'}/>
+            </div>
+        )}
+
+
+
+    
+
 
     const getBalance = async () => {
         if(user)
@@ -75,6 +116,14 @@ export default function Home() {
         }
         else{
             addAmountAlert();
+        }
+    }
+
+    const claimReward = async () => {
+        try {
+            await contract.claim();
+        } catch (error) {
+            console.log(erroe);
         }
     }
 
@@ -107,7 +156,11 @@ export default function Home() {
     }
 
     return (
+
         <div className="h-[100vh] bg-slate-700">
+
+
+
             <ToastContainer />   
 
             <Head>
@@ -176,7 +229,7 @@ export default function Home() {
 
                         <div>
                             <div>
-                                <GetterButton text={"Withdrawl Status"} onClick={withdrawStatus} />
+                                <GetterButton text={"Claim Reward"} onClick={claimReward} />
                             </div>
                             <div className='text-white'>
                                 {withdrawn}
@@ -186,6 +239,7 @@ export default function Home() {
                     </div>
 
                 </div>
+
             </div>
 
             {/* <GetterButton text={"Owner Address"} onClick={getOwnerAddress}/> */}

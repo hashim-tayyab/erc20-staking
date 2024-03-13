@@ -9,6 +9,7 @@
     "@thirdweb-dev/react": "^4.4.11",
     "@thirdweb-dev/sdk": "^4.0.38",
     "ethers": "^5.7.2",
+    "metamask-react": "^2.7.0",
     "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0",
