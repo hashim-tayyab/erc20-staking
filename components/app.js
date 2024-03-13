@@ -22,7 +22,7 @@ export default function Home() {
     const stakingTimeNotUp = () => toast.error("You need to Wait before Unstaking!");
     const addAddressFirst = () => toast.error("Enter Address to Search!");
     const addUnstakeAmountAlert = () => toast.error("Enter Amount to Unstake First!");
-    const switchChaidId = () => toast.error("Switch Chain Id!");
+    const noReward = () => toast.error("No Reward Pending!");
 
 
 
@@ -123,7 +123,7 @@ export default function Home() {
         try {
             await contract.claim();
         } catch (error) {
-            console.log(erroe);
+            noReward();
         }
     }
 
